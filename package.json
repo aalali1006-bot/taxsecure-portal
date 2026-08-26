@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "security:check": "node scripts/security-check.mjs",
+    "security:azure:guardrails": "node scripts/verify-azure-guardrails.mjs",
     "db:push": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {
