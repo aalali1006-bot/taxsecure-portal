@@ -1,0 +1,40 @@
+name: Quality & Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Typecheck, tests and secret guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm check
+      - name: Run client and server tests
+        run: pnpm test
+      - name: Build deployable application artifact
+        run: pnpm build
+      - name: Check for committed secrets
+        run: pnpm security:check
+      - name: Check dependency advisories
+        run: pnpm audit --audit-level=high
