@@ -13,7 +13,7 @@ const requiredControls = [
   [main, /min_tls_version\s*=\s*"TLS1_2"/, "TLS 1.2 minimum"],
   [main, /shared_access_key_enabled\s*=\s*false/, "shared key disabled"],
   [main, /allow_nested_items_to_be_public\s*=\s*false/, "public blob access disabled"],
-  [main, /enable_rbac_authorization\s*=\s*true/, "Key Vault RBAC"],
+  [main, /rbac_authorization_enabled\s*=\s*true/, "Key Vault RBAC"],
   [main, /purge_protection_enabled\s*=\s*true/, "Key Vault purge protection"],
   [main, /Storage(Read|Write|Delete)/, "storage diagnostic logging"],
   [oidcWorkflow, /id-token:\s*write/, "GitHub OIDC permission"],
