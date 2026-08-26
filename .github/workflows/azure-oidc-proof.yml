@@ -1,0 +1,33 @@
+name: Azure OIDC Proof Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type OIDC_TEST_ONLY to validate a future Azure workload identity without deployment."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  oidc-proof:
+    name: Secretless Azure identity proof
+    if: ${{ inputs.confirmation == 'OIDC_TEST_ONLY' }}
+    runs-on: ubuntu-latest
+    environment: azure-oidc-test
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Sign in to Azure with GitHub OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Prove identity only; do not provision resources
+        run: |
+          az account show --query "{tenantId:tenantId, subscriptionId:id, name:name}" --output json
+          echo "OIDC identity verified. This workflow deliberately contains no terraform apply."
