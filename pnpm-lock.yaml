@@ -78,7 +78,6 @@ overrides:
   tar@<=7.5.16: '>=7.5.17'
   axios@>=1.7.0 <1.18.0: '>=1.18.0'
   body-parser@<1.20.6: '>=1.20.6'
-  express>path-to-regexp: 0.1.13
   dompurify@<=3.4.11: '>=3.4.12'
   dompurify@<=3.4.10: '>=3.4.11'
   dompurify@<3.4.9: '>=3.4.9'
@@ -236,8 +235,8 @@ importers:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.1)
       express:
-        specifier: ^4.21.2
-        version: 4.21.2
+        specifier: ^4.22.1
+        version: 4.22.2
       framer-motion:
         specifier: ^12.23.22
         version: 12.23.22(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -2820,8 +2819,8 @@ packages:
     resolution: {integrity: sha512-KfYbmpRm0VbLjEvVa9yGwCi9GI34xvi7A/HXYWQO65CSD2u3MczUJSuwXKFIxlGsgBQizV9q5J9NHj4VG0n+pA==}
     engines: {node: '>=12.0.0'}
 
-  express@4.21.2:
-    resolution: {integrity: sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==}
+  express@4.22.2:
+    resolution: {integrity: sha512-IuL+Elrou2ZvCFHs18/CIzy2Nzvo25nZ1/D2eIZlz7c+QUayAcYoiM2BthCjs+EBHVpjYjcuLDAiCWgeIX3X1Q==}
     engines: {node: '>= 0.10.0'}
 
   exsolve@1.0.7:
@@ -7013,7 +7012,7 @@ snapshots:
 
   expect-type@1.4.0: {}
 
-  express@4.21.2:
+  express@4.22.2:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
@@ -7029,7 +7028,7 @@ snapshots:
       etag: 1.8.1
       finalhandler: 1.3.1
       fresh: 0.5.2
-      http-errors: 2.0.0
+      http-errors: 2.0.1
       merge-descriptors: 1.0.3
       methods: 1.1.2
       on-finished: 2.4.1
@@ -7042,7 +7041,7 @@ snapshots:
       send: 0.19.0
       serve-static: 1.16.2
       setprototypeof: 1.2.0
-      statuses: 2.0.1
+      statuses: 2.0.2
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
