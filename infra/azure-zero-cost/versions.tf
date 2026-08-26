@@ -11,5 +11,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  skip_provider_registration = true
+  # Zero-cost lab: no resource providers are registered automatically.
+  resource_provider_registrations = "none"
 }

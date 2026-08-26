@@ -20,12 +20,12 @@ resource "azurerm_log_analytics_workspace" "security_lab" {
 
 resource "azurerm_key_vault" "security_lab" {
   count                         = var.enable_deployment ? 1 : 0
-  name                          = "kv-taxsecure-security-lab"
+  name                          = "kv-taxsecure-seclab"
   location                      = azurerm_resource_group.security_lab[0].location
   resource_group_name           = azurerm_resource_group.security_lab[0].name
   tenant_id                     = "00000000-0000-0000-0000-000000000000"
   sku_name                      = "standard"
-  enable_rbac_authorization     = true
+  rbac_authorization_enabled    = true
   purge_protection_enabled      = true
   soft_delete_retention_days    = 90
   public_network_access_enabled = false
