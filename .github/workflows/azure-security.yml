@@ -1,0 +1,39 @@
+name: Azure IaC Security
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/azure-zero-cost/**"
+      - "scripts/verify-azure-guardrails.mjs"
+      - ".github/workflows/azure-security.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "infra/azure-zero-cost/**"
+      - "scripts/verify-azure-guardrails.mjs"
+      - ".github/workflows/azure-security.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-security:
+    name: Terraform validation and Azure guardrails
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Initialize without remote state or cloud deployment
+        run: terraform -chdir=infra/azure-zero-cost init -backend=false
+      - name: Check Terraform formatting
+        run: terraform -chdir=infra/azure-zero-cost fmt -check
+      - name: Validate Azure security reference
+        run: terraform -chdir=infra/azure-zero-cost validate
+      - name: Run zero-cost Terraform plan test with mocked Azure provider
+        run: terraform -chdir=infra/azure-zero-cost test
+      - name: Verify required Azure security guardrails
+        run: node scripts/verify-azure-guardrails.mjs
