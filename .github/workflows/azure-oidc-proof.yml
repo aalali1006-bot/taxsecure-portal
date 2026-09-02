@@ -20,7 +20,7 @@ jobs:
     environment: azure-oidc-test
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Sign in to Azure with GitHub OIDC
         uses: azure/login@v2
         with:
