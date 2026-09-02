@@ -13,6 +13,7 @@ TaxSecure Portal is a security-focused client portal demonstration for tax advis
 | Teams boundary | The demonstrated handoff contains only the workflow event, document reference and controlled portal URL. Invoice content, attachments, banking data and tax identifiers are deliberately excluded. |
 | Azure mapping | The architecture view maps Entra ID, RBAC, Key Vault, encrypted storage, logging, detection and incident response to the existing Azure lab. |
 | Zero-cost Azure evidence | A non-deploying AzureRM Terraform reference, GitHub OIDC proof gate and mandatory CI guardrails demonstrate hardened cloud design without keeping cloud resources online. |
+| Zero trust access | The portal is modelled as a single Zscaler Private Access application segment reachable on 443 only, with no bypass, no ICMP and a device-posture condition. Network location never grants access. |
 
 ## Demo scope and privacy
 
@@ -39,3 +40,9 @@ The unit suite verifies the upload allow-list and size boundary, workflow least 
 ## Zero-cost Azure security lab
 
 The repository contains [`infra/azure-zero-cost`](infra/azure-zero-cost): a real AzureRM configuration with a committed `enable_deployment = false` cost gate. It demonstrates private Storage, Key Vault RBAC and purge protection, diagnostic logging, GitHub OIDC readiness and policy-style guardrails. The CI workflow validates the configuration but never deploys it. See [`docs/zero-cost-azure-security.md`](docs/zero-cost-azure-security.md) for evidence and the controlled activation path.
+
+## Zero trust access reference
+
+[`infra/zscaler-zero-trust`](infra/zscaler-zero-trust) applies the same approach to the access layer: a real Zscaler Private Access configuration behind a committed `enable_deployment = false` change gate, so no tenant, licence or credential is required. It publishes the portal as one application segment on TCP 443 with `bypass_type = "NEVER"`, no ICMP reachability, double encryption, a device-posture condition and a short re-authentication window.
+
+The same decision is mirrored as testable server code in `server/zscaler/policy.ts`, which denies a non-compliant device even when the request comes from the corporate network. CI runs `terraform fmt`, `validate` and a mocked-provider plan test that proves the committed default creates nothing, plus `scripts/verify-zscaler-guardrails.mjs`, which fails if any control is weakened or a credential is committed. See [`docs/zscaler-zero-trust.md`](docs/zscaler-zero-trust.md) for the evidence table and the controlled activation path.
