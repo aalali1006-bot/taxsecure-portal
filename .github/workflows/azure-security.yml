@@ -26,7 +26,7 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
       - name: Initialize without remote state or cloud deployment
         run: terraform -chdir=infra/azure-zero-cost init -backend=false
       - name: Check Terraform formatting
