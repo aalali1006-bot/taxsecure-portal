@@ -1,0 +1,39 @@
+name: Zscaler Zero Trust
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/zscaler-zero-trust/**"
+      - "scripts/verify-zscaler-guardrails.mjs"
+      - ".github/workflows/zscaler-security.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "infra/zscaler-zero-trust/**"
+      - "scripts/verify-zscaler-guardrails.mjs"
+      - ".github/workflows/zscaler-security.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  zero-trust-security:
+    name: Terraform validation and Zscaler guardrails
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Initialize without remote state or tenant deployment
+        run: terraform -chdir=infra/zscaler-zero-trust init -backend=false
+      - name: Check Terraform formatting
+        run: terraform -chdir=infra/zscaler-zero-trust fmt -check
+      - name: Validate Zscaler zero-trust reference
+        run: terraform -chdir=infra/zscaler-zero-trust validate
+      - name: Run tenant-free Terraform plan test with mocked ZPA provider
+        run: terraform -chdir=infra/zscaler-zero-trust test
+      - name: Verify required zero-trust guardrails
+        run: node scripts/verify-zscaler-guardrails.mjs

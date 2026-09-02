@@ -130,3 +130,12 @@ temp/
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
 .project-config.json
+
+# Terraform provider cache, local state and lock files
+# The security modules are validated in CI; nothing here belongs in the repository.
+**/.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log

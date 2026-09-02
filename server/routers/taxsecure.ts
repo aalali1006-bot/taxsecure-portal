@@ -18,6 +18,7 @@ import {
   type PortalActorRole,
   validateDocumentUpload,
 } from "../taxsecure/security";
+import { evaluateZeroTrustAccess } from "../zscaler/policy";
 
 const uploadSchema = z.object({
   filename: z.string().min(1).max(160),
@@ -103,6 +104,13 @@ export const taxsecureRouter = router({
   })).query(({ input }) => ({
     allowed: canTransitionDocument(input.from, input.to, input.actorRole as PortalActorRole),
   })),
+
+  evaluateZeroTrustAccess: protectedProcedure.input(z.object({
+    role: z.enum(["client", "caseworker", "firm_admin"]),
+    devicePosture: z.enum(["compliant", "compliant_with_warnings", "non_compliant", "unknown"]),
+    networkOrigin: z.enum(["corporate_network", "public_internet", "unmanaged_vpn"]),
+    reauthenticatedSecondsAgo: z.number().int().nonnegative().max(86_400),
+  })).query(({ input }) => evaluateZeroTrustAccess(input)),
 
   changeDocumentStatus: protectedProcedure.input(z.object({
     documentId: z.number().int().positive(),

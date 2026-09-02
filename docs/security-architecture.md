@@ -4,6 +4,7 @@ The portal expresses the same control layers as the Secure Azure Workload Lab. I
 
 | Control plane | Portal behavior | Azure-lab connection |
 |---|---|---|
+| Network access | The portal is reached as a single published application segment after a posture-conditioned decision, never because of network location | Zscaler Private Access reference in `infra/zscaler-zero-trust` |
 | Identity | Authenticated session and role-aware server procedures | Entra ID and least-privilege RBAC |
 | Authorization | Document access requires an active firm membership or the owning client profile | Object-level authorization layered on RBAC |
 | Secrets | No credential is committed or sent to the browser | Key Vault for Graph or webhook credentials |
